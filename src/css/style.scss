@@ -1,0 +1,125 @@
+/* Estilos personalizados para complementar o Tailwind */
+body {
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* Estilo para a imagem sendo arrastada */
+.dragging {
+    opacity: 0.4;
+    transform: scale(1.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    cursor: grabbing;
+    z-index: 1000;
+}
+
+/* Área de drop (quadro principal) */
+#tier-board {
+    // Vite lida com caminhos de assets relativos à pasta 'public'
+    background-image: linear-gradient(rgba(14, 19, 31, 0.8), rgba(14, 19, 31, 0.9)), url('/img/bg/bg.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Linhas divisórias dos Tiers */
+.tier-line {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(2px);
+    left: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Exemplo de aninhamento com SASS */
+.board-character-wrapper {
+    position: absolute;
+    cursor: grab;
+    z-index: 10;
+
+    &:active {
+        cursor: grabbing;
+    }
+
+    .remove-btn {
+        display: none;
+    }
+
+    &:hover {
+        .remove-btn {
+            display: flex;
+        }
+    }
+}
+
+/* Botão de remover (X) */
+.remove-btn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background-color: #ef4444; /* red-500 */
+    color: white;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: bold;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 15;
+    border: 2px solid white;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+/* Ícone do personagem no quadro */
+.board-character-img {
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+}
+
+/* Contêiner do personagem na lista da direita */
+.character-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: grab;
+    transition: transform 0.2s, opacity 0.3s;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+    &:active {
+        cursor: grabbing;
+    }
+
+    &.in-board {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: scale(0.95);
+    }
+}
+
+/* Personalização da barra de rolagem */
+#character-list-container::-webkit-scrollbar {
+    width: 8px;
+}
+#character-list-container::-webkit-scrollbar-track {
+    background: #111827;
+}
+#character-list-container::-webkit-scrollbar-thumb {
+    background-color: #6366f1;
+    border-radius: 20px;
+}
