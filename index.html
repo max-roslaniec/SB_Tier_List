@@ -13,22 +13,39 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+  
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="/src/css/style.scss">
 </head>
 <body class="bg-gray-900 text-white">
 
   <!-- Layout adaptável: flex-col em mobile, flex-row no desktop -->
-  <div class="flex flex-col lg:flex-row h-screen w-screen">
-    <div id="tier-ranks" class="w-full lg:w-24 bg-gray-900/50 flex flex-row lg:flex-col backdrop-blur-sm z-20"></div>
+  <div id="app-container" class="flex flex-col lg:flex-row h-screen w-screen">
     
-    <div id="tier-board" class="flex-grow min-h-[300px]"></div>
+    <!-- Tiers (Linha no mobile, Coluna no desktop) -->
+    <div id="tier-ranks" class="w-full lg:w-24 bg-gray-900/50 flex flex-row lg:flex-col backdrop-blur-sm z-20 shrink-0"></div>
     
-    <div class="w-full lg:w-80 bg-gray-900/70 backdrop-blur-sm flex flex-col p-4 shadow-2xl z-20">
+    <!-- Quadro Principal -->
+    <div id="tier-board" class="flex-grow min-h-0 relative"></div>
+    
+    <!-- Painel de Seleção de Personagens -->
+    <div id="character-panel" class="w-full lg:w-80 bg-gray-900/70 backdrop-blur-sm flex flex-col p-4 shadow-2xl z-20 shrink-0">
       <h2 class="text-2xl font-bold text-center mb-4 border-b-2 border-indigo-500 pb-2">Personagens</h2>
-      <div id="character-list-container" class="flex-1 overflow-y-auto pr-2">
-        <h3 class="text-lg font-semibold text-indigo-300 mt-2 mb-3 sticky top-0 bg-gray-900/80 py-1">Heróis</h3>
-        <div id="heroes-pool" class="grid grid-cols-3 gap-y-4 gap-x-2 pb-4"></div>
-        <h3 class="text-lg font-semibold text-indigo-300 mt-4 mb-3 sticky top-0 bg-gray-900/80 py-1">Squaddies</h3>
-        <div id="squaddies-pool" class="grid grid-cols-3 gap-y-4 gap-x-2"></div>
+      
+      <!-- Container com rolagem horizontal no mobile e vertical no desktop -->
+      <div id="character-list-container" class="flex-1 flex overflow-x-auto lg:overflow-y-auto lg:overflow-x-hidden pb-2 lg:pb-0 lg:pr-2 relative">
+        <div class="flex flex-row lg:flex-col space-x-4 lg:space-x-0 lg:space-y-4">
+            <!-- Seção de Heróis -->
+            <div>
+                <h3 class="text-lg font-semibold text-indigo-300 mb-2 whitespace-nowrap">Heróis</h3>
+                <div id="heroes-pool" class="flex flex-row lg:grid lg:grid-cols-3 gap-2"></div>
+            </div>
+            <!-- Seção de Squaddies -->
+            <div>
+                <h3 class="text-lg font-semibold text-indigo-300 mb-2 whitespace-nowrap">Squaddies</h3>
+                <div id="squaddies-pool" class="flex flex-row lg:grid lg:grid-cols-3 gap-2"></div>
+            </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,3 @@
-// A primeira linha do seu JS agora importa o SCSS.
-// O Vite vai processar este arquivo e injetar o CSS na página.
 import '../css/style.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,16 +14,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const tierRanksContainer = document.getElementById('tier-ranks');
 
     // --- ESTADO DA APLICAÇÃO ---
-    let draggedElement = null; // Elemento sendo arrastado (mouse ou touch)
-    let offsetX, offsetY; // Deslocamento do cursor/dedo
-    let boardCharacters = new Set(); // Conjunto para rastrear personagens no quadro
+    let draggedElement = null;
+    let offsetX, offsetY;
+    let boardCharacters = new Set();
+    let isDraggingTouch = false;
+    let touchGhostElement = null;
+    let touchStartInfo = {};
+    
+    // --- FUNÇÕES DE INICIALIZAÇÃO E UI ---
 
-    // --- ESTADO ESPECIAL PARA TOUCH ---
-    let isDraggingTouch = false; // Flag para saber se um arraste por toque está ativo
-    let touchGhostElement = null; // Elemento "fantasma" que segue o dedo
-    let touchStartInfo = {}; // Informações do personagem ao iniciar o toque
-
-    // --- FUNÇÕES DE INICIALIZAÇÃO ---
+    function setAppHeight() {
+        document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    }
 
     function populateCharacterPools() {
         const uniqueCharacters = [...new Map(characters.map((item) => [item.name, item])).values()];
@@ -48,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
             itemContainer.appendChild(img);
             itemContainer.appendChild(name);
 
-            // Adiciona listeners para mouse e toque
             itemContainer.addEventListener('dragstart', handleDragStartFromPool);
             itemContainer.addEventListener('touchstart', handleTouchStartFromPool, { passive: false });
 
@@ -58,26 +57,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createTierRanks() {
+        tierRanksContainer.innerHTML = ''; // Limpa antes de recriar
         tiers.forEach((tier) => {
             const rankDiv = document.createElement('div');
-            rankDiv.className = `flex-1 flex items-center justify-center text-5xl font-black text-white ${tier.color} border-b-2 border-gray-900/50`;
+            rankDiv.className = `flex-1 flex items-center justify-center text-4xl lg:text-5xl font-black text-white ${tier.color}`;
             rankDiv.textContent = tier.name;
             tierRanksContainer.appendChild(rankDiv);
         });
     }
 
+    // Função de desenhar linhas refatorada
     function drawTierLines() {
-        document.querySelectorAll('.tier-line').forEach((line) => line.remove());
-        const boardHeight = tierBoard.clientHeight;
-        const tierHeight = boardHeight / tiers.length;
-        tiers.forEach((_, index) => {
-            if (index < tiers.length - 1) {
-                const line = document.createElement('div');
-                line.className = 'tier-line';
-                line.style.top = `${(index + 1) * tierHeight}px`;
-                tierBoard.appendChild(line);
-            }
-        });
+        document.querySelectorAll('.tier-line-horizontal, .tier-line-vertical').forEach((line) => line.remove());
+        
+        const isMobile = window.innerWidth < 1024; // Breakpoint 'lg' do Tailwind
+
+        if (isMobile) {
+            // Desenha linhas verticais
+            const boardWidth = tierBoard.clientWidth;
+            const tierWidth = boardWidth / tiers.length;
+            tiers.forEach((_, index) => {
+                if (index < tiers.length - 1) {
+                    const line = document.createElement('div');
+                    line.className = 'tier-line-vertical';
+                    line.style.left = `${(index + 1) * tierWidth}px`;
+                    tierBoard.appendChild(line);
+                }
+            });
+        } else {
+            // Desenha linhas horizontais
+            const boardHeight = tierBoard.clientHeight;
+            const tierHeight = boardHeight / tiers.length;
+            tiers.forEach((_, index) => {
+                if (index < tiers.length - 1) {
+                    const line = document.createElement('div');
+                    line.className = 'tier-line-horizontal';
+                    line.style.top = `${(index + 1) * tierHeight}px`;
+                    tierBoard.appendChild(line);
+                }
+            });
+        }
     }
 
     // --- LÓGICA DE EVENTOS (MOUSE) ---
@@ -157,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
             source: 'pool',
         };
 
-        // Cria um elemento "fantasma" para seguir o dedo
         touchGhostElement = img.cloneNode();
         touchGhostElement.style.position = 'absolute';
         touchGhostElement.style.width = '80px';
@@ -189,9 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const touch = e.changedTouches[0];
 
-        if (touchGhostElement) { // Movendo da lista
+        if (touchGhostElement) {
             moveElementWithTouch(touch);
-        } else if (draggedElement) { // Movendo dentro do quadro
+        } else if (draggedElement) {
             const boardRect = tierBoard.getBoundingClientRect();
             let x = touch.clientX - boardRect.left - offsetX;
             let y = touch.clientY - boardRect.top - offsetY;
@@ -213,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const touch = e.changedTouches[0];
             const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
             
-            // Verifica se o elemento foi solto sobre o quadro
             if (tierBoard.contains(dropTarget)) {
                 addCharacterToBoard(touchStartInfo.imageUrl, touchStartInfo.characterName, touch.clientX, touch.clientY);
             }
@@ -232,7 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function moveElementWithTouch(touch) {
-        // Centraliza o fantasma no dedo
         touchGhostElement.style.left = `${touch.clientX - 40}px`; 
         touchGhostElement.style.top = `${touch.clientY - 40}px`;
     }
@@ -258,8 +274,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const removeBtn = document.createElement('div');
         removeBtn.className = 'remove-btn';
         removeBtn.innerHTML = '&times;';
-        removeBtn.addEventListener('click', () => removeCharacterFromBoard(characterName)); // Click para desktop
-        removeBtn.addEventListener('touchend', () => removeCharacterFromBoard(characterName)); // Touchend para mobile
+        removeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeCharacterFromBoard(characterName);
+        });
+        removeBtn.addEventListener('touchend', (e) => {
+            e.stopPropagation();
+            removeCharacterFromBoard(characterName);
+        });
 
         wrapper.appendChild(newImg);
         wrapper.appendChild(removeBtn);
@@ -281,22 +303,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector(`.character-item[data-character-name="${characterName}"]`).classList.remove('in-board');
     }
 
-    // --- EVENT LISTENERS GLOBAIS ---
-    // Mouse
-    tierBoard.addEventListener('dragover', handleDragOver);
-    tierBoard.addEventListener('drop', handleDrop);
-    document.addEventListener('dragend', handleDragEnd);
-    // Touch
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd);
-    // Janela
-    window.addEventListener('resize', drawTierLines);
-
     // --- PONTO DE ENTRADA DA APLICAÇÃO ---
     function init() {
+        setAppHeight();
         populateCharacterPools();
         createTierRanks();
         drawTierLines();
+        
+        // Listeners Globais
+        tierBoard.addEventListener('dragover', handleDragOver);
+        tierBoard.addEventListener('drop', handleDrop);
+        document.addEventListener('dragend', handleDragEnd);
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('resize', () => {
+            setAppHeight();
+            drawTierLines();
+        });
     }
 
     init();

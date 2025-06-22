@@ -1,7 +1,19 @@
-body {
-  font-family: 'Inter', sans-serif;
+/* Estilos personalizados para complementar o Tailwind */
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  user-select: none;
+  height: var(--app-height, 100vh); // Garante a altura correta em mobile
+}
+
+#app-container {
+  height: 100%;
 }
 
 .character-item {
@@ -11,6 +23,7 @@ body {
   cursor: grab;
   padding: 0.25rem;
   transition: opacity 0.2s;
+  width: 72px; /* Largura fixa para rolagem horizontal */
 }
 
 .character-item.in-board {
@@ -20,7 +33,10 @@ body {
 
 #tier-board {
   position: relative;
-  background-color: #1f2937; // Tailwind's gray-800
+  /* BG Restaurado */
+  background-image: linear-gradient(rgba(14, 19, 31, 0.8), rgba(14, 19, 31, 0.9)), url('/img/bg/bg.png');
+  background-size: cover;
+  background-position: center;
   overflow: hidden;
 }
 
@@ -36,7 +52,6 @@ body {
   height: 100%;
   object-fit: cover;
   pointer-events: none;
-  /* border removida para evitar a borda branca */
 }
 
 .remove-btn {
@@ -55,19 +70,36 @@ body {
   justify-content: center;
   cursor: pointer;
   z-index: 10;
-
-  @media (max-width: 768px) {
-    font-size: 18px;
-    width: 24px;
-    height: 24px;
-  }
 }
 
-.tier-line {
+/* Linha horizontal para Desktop */
+.tier-line-horizontal {
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
   background-color: rgba(255, 255, 255, 0.1);
   pointer-events: none;
+}
+
+/* Linha vertical para Mobile */
+.tier-line-vertical {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
+}
+
+/* Scrollbar horizontal customizada */
+#character-list-container::-webkit-scrollbar {
+  height: 8px;
+}
+#character-list-container::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+#character-list-container::-webkit-scrollbar-thumb {
+  background-color: #4f46e5;
+  border-radius: 20px;
 }
