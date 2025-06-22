@@ -24,6 +24,7 @@ body {
   padding: 0.25rem;
   transition: opacity 0.2s;
   width: 72px; /* Largura fixa para rolagem horizontal */
+  flex-shrink: 0; /* Impede que os itens encolham */
 }
 
 .character-item.in-board {
@@ -92,14 +93,35 @@ body {
   pointer-events: none;
 }
 
-/* Scrollbar horizontal customizada */
+/* Scrollbar customizada */
 #character-list-container::-webkit-scrollbar {
-  height: 8px;
+  height: 8px; /* Para rolagem horizontal */
+  width: 8px; /* Para rolagem vertical */
 }
 #character-list-container::-webkit-scrollbar-track {
   background: #1f2937;
+  border-radius: 4px;
 }
 #character-list-container::-webkit-scrollbar-thumb {
   background-color: #4f46e5;
-  border-radius: 20px;
+  border-radius: 4px;
+}
+
+/* --- NOVA ALTERAÇÃO --- */
+.category-title {
+    color: #a5b4fc; /* Tailwind's indigo-300 para desktop */
+}
+
+/* Estilos para os títulos da lista de personagens no mobile */
+@media (max-width: 1023px) {
+  .category-title {
+    background-color: #3730a3; /* Roxo mais vivo (indigo-800) */
+    color: #e0e7ff; /* Cor de texto mais clara para contraste (indigo-100) */
+    padding: 0.5rem 1rem; /* Aumenta a altura e o espaçamento */
+    border-radius: 8px; /* Cantos arredondados */
+    text-align: center;
+    position: sticky; /* Faz o título "colar" à esquerda ao rolar */
+    left: 0;
+    z-index: 10;
+  }
 }
