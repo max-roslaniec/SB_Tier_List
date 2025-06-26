@@ -1,25 +1,39 @@
 import '../css/style.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- CONFIGURAÇÃO E DADOS ---
-    const characters = [
-        { name: 'Barbarian King', imageUrl: '/img/Barbarian_King.webp', type: 'hero' }, { name: 'Royale King', imageUrl: '/img/Royale_King.webp', type: 'hero' }, { name: 'Archer Queen', imageUrl: '/img/Archer_Queen.webp', type: 'hero' }, { name: 'Mortis', imageUrl: '/img/Mortis.webp', type: 'hero' }, { name: 'Sonic', imageUrl: '/img/Sonic.webp', type: 'hero' }, { name: 'Archer', imageUrl: '/img/Archer.webp', type: 'squaddie' }, { name: 'Bandit', imageUrl: '/img/Bandit.webp', type: 'squaddie' }, { name: 'Barbarian', imageUrl: '/img/Barbarian.webp', type: 'squaddie' }, { name: 'Battle Healer', imageUrl: '/img/Battle_Healer.webp', type: 'squaddie' }, { name: 'Bea', imageUrl: '/img/Bea.webp', type: 'squaddie' }, { name: 'Bo', imageUrl: '/img/Bo.webp', type: 'squaddie' }, { name: 'Chicken', imageUrl: '/img/Chicken.webp', type: 'squaddie' }, { name: 'Colt', imageUrl: '/img/Colt.webp', type: 'squaddie' }, { name: 'Colonel Ruffs', imageUrl: '/img/Ruffs.webp', type: 'squaddie' }, { name: 'Dr. T', imageUrl: '/img/Dr_T.webp', type: 'squaddie' }, { name: 'Dynamike', imageUrl: '/img/Dynamike.webp', type: 'squaddie' }, { name: 'Elita-1', imageUrl: '/img/Elita-1.webp', type: 'squaddie' }, { name: 'El Primo', imageUrl: '/img/El_Primo.webp', type: 'squaddie' }, { name: 'Frank', imageUrl: '/img/Frank.webp', type: 'squaddie' }, { name: 'Goblin', imageUrl: '/img/Goblin.webp', type: 'squaddie' }, { name: 'Greg', imageUrl: '/img/Greg.webp', type: 'squaddie' }, { name: 'Heavy', imageUrl: '/img/Heavy.webp', type: 'squaddie' }, { name: 'Hog Rider', imageUrl: '/img/Hog_Rider.webp', type: 'squaddie' }, { name: 'Ice Wizard', imageUrl: '/img/Ice_Wizard.webp', type: 'squaddie' }, { name: 'Jessie', imageUrl: '/img/Jessie.webp', type: 'squaddie' }, { name: 'Knuckles', imageUrl: '/img/Knuckles.webp', type: 'squaddie' }, { name: 'Leon', imageUrl: '/img/Leon.webp', type: 'squaddie' }, { name: 'Mavis', imageUrl: '/img/Mavis.webp', type: 'squaddie' }, { name: 'Max', imageUrl: '/img/Max.webp', type: 'squaddie' }, { name: 'Medic', imageUrl: '/img/Medic.webp', type: 'squaddie' }, { name: 'Miner', imageUrl: '/img/Miner.webp', type: 'squaddie' }, { name: 'Nita', imageUrl: '/img/Nita.webp', type: 'squaddie' }, { name: 'Optimus Prime', imageUrl: '/img/Optimus_Prime.webp', type: 'squaddie' }, { name: 'Pam', imageUrl: '/img/Pam.webp', type: 'squaddie' }, { name: 'Penny', imageUrl: '/img/Penny.webp', type: 'squaddie' }, { name: 'Poco', imageUrl: '/img/Poco.webp', type: 'squaddie' }, { name: 'Tails', imageUrl: '/img/Tails.webp', type: 'squaddie' }, { name: 'Tank', imageUrl: '/img/Tank.webp', type: 'squaddie' }, { name: 'Trader', imageUrl: '/img/Trader.webp', type: 'squaddie' }, { name: 'Shelly', imageUrl: '/img/Shelly.webp', type: 'squaddie' }, { name: 'Witch', imageUrl: '/img/Witch.webp', type: 'squaddie' }, { name: 'Wizard', imageUrl: '/img/Wizard.webp', type: 'squaddie' },
-    ];
+    // --- ESTRUTURA DE DADOS PARA OS JOGOS ---
+    const gameData = {
+        squadbusters: {
+            backgroundImage: `linear-gradient(rgba(14, 19, 31, 0.8), rgba(14, 19, 31, 0.9)), url('/img/bg/sb.png')`,
+            characters: [
+                { name: 'Barbarian King', imageUrl: '/img/squadbusters/Barbarian_King.webp', type: 'hero' }, { name: 'Royale King', imageUrl: '/img/squadbusters/Royale_King.webp', type: 'hero' }, { name: 'Archer Queen', imageUrl: '/img/squadbusters/Archer_Queen.webp', type: 'hero' }, { name: 'Mortis', imageUrl: '/img/squadbusters/Mortis.webp', type: 'hero' }, { name: 'Sonic', imageUrl: '/img/squadbusters/Sonic.webp', type: 'hero' }, { name: 'Archer', imageUrl: '/img/squadbusters/Archer.webp', type: 'squaddie' }, { name: 'Bandit', imageUrl: '/img/squadbusters/Bandit.webp', type: 'squaddie' }, { name: 'Barbarian', imageUrl: '/img/squadbusters/Barbarian.webp', type: 'squaddie' }, { name: 'Battle Healer', imageUrl: '/img/squadbusters/Battle_Healer.webp', type: 'squaddie' }, { name: 'Bea', imageUrl: '/img/squadbusters/Bea.webp', type: 'squaddie' }, { name: 'Bo', imageUrl: '/img/squadbusters/Bo.webp', type: 'squaddie' }, { name: 'Chicken', imageUrl: '/img/squadbusters/Chicken.webp', type: 'squaddie' }, { name: 'Colt', imageUrl: '/img/squadbusters/Colt.webp', type: 'squaddie' }, { name: 'Colonel Ruffs', imageUrl: '/img/squadbusters/Ruffs.webp', type: 'squaddie' }, { name: 'Dr. T', imageUrl: '/img/squadbusters/Dr_T.webp', type: 'squaddie' }, { name: 'Dynamike', imageUrl: '/img/squadbusters/Dynamike.webp', type: 'squaddie' }, { name: 'Elita-1', imageUrl: '/img/squadbusters/Elita-1.webp', type: 'squaddie' }, { name: 'El Primo', imageUrl: '/img/squadbusters/El_Primo.webp', type: 'squaddie' }, { name: 'Frank', imageUrl: '/img/squadbusters/Frank.webp', type: 'squaddie' }, { name: 'Goblin', imageUrl: '/img/squadbusters/Goblin.webp', type: 'squaddie' }, { name: 'Greg', imageUrl: '/img/squadbusters/Greg.webp', type: 'squaddie' }, { name: 'Heavy', imageUrl: '/img/squadbusters/Heavy.webp', type: 'squaddie' }, { name: 'Hog Rider', imageUrl: '/img/squadbusters/Hog_Rider.webp', type: 'squaddie' }, { name: 'Ice Wizard', imageUrl: '/img/squadbusters/Ice_Wizard.webp', type: 'squaddie' }, { name: 'Jessie', imageUrl: '/img/squadbusters/Jessie.webp', type: 'squaddie' }, { name: 'Knuckles', imageUrl: '/img/squadbusters/Knuckles.webp', type: 'squaddie' }, { name: 'Leon', imageUrl: '/img/squadbusters/Leon.webp', type: 'squaddie' }, { name: 'Mavis', imageUrl: '/img/squadbusters/Mavis.webp', type: 'squaddie' }, { name: 'Max', imageUrl: '/img/squadbusters/Max.webp', type: 'squaddie' }, { name: 'Medic', imageUrl: '/img/squadbusters/Medic.webp', type: 'squaddie' }, { name: 'Miner', imageUrl: '/img/squadbusters/Miner.webp', type: 'squaddie' }, { name: 'Nita', imageUrl: '/img/squadbusters/Nita.webp', type: 'squaddie' }, { name: 'Optimus Prime', imageUrl: '/img/squadbusters/Optimus_Prime.webp', type: 'squaddie' }, { name: 'Pam', imageUrl: '/img/squadbusters/Pam.webp', type: 'squaddie' }, { name: 'Penny', imageUrl: '/img/squadbusters/Penny.webp', type: 'squaddie' }, { name: 'Poco', imageUrl: '/img/squadbusters/Poco.webp', type: 'squaddie' }, { name: 'Tails', imageUrl: '/img/squadbusters/Tails.webp', type: 'squaddie' }, { name: 'Tank', imageUrl: '/img/squadbusters/Tank.webp', type: 'squaddie' }, { name: 'Trader', imageUrl: '/img/squadbusters/Trader.webp', type: 'squaddie' }, { name: 'Shelly', imageUrl: '/img/squadbusters/Shelly.webp', type: 'squaddie' }, { name: 'Witch', imageUrl: '/img/squadbusters/Witch.webp', type: 'squaddie' }, { name: 'Wizard', imageUrl: '/img/squadbusters/Wizard.webp', type: 'squaddie' },
+            ],
+            categories: {
+                hero: 'Heróis',
+                squaddie: 'Squaddies',
+            },
+        },
+        gunbound: {
+            backgroundImage: `linear-gradient(rgba(14, 19, 31, 0.8), rgba(14, 19, 31, 0.9)), url('/img/bg/gb.png')`,
+            characters: [
+                { name: 'Armour', imageUrl: '/img/gunbound/Armour.webp', type: 'mobile' }, { name: 'Mage', imageUrl: '/img/gunbound/Mage.webp', type: 'mobile' }, { name: 'Nakmachine', imageUrl: '/img/gunbound/Nakmachine.webp', type: 'mobile' }, { name: 'Trico', imageUrl: '/img/gunbound/Trico.webp', type: 'mobile' }, { name: 'Bigfoot', imageUrl: '/img/gunbound/Bigfoot.webp', type: 'mobile' }, { name: 'Boomer', imageUrl: '/img/gunbound/Boomer.webp', type: 'mobile' }, { name: 'RaonLauncher', imageUrl: '/img/gunbound/RaonLauncher.webp', type: 'mobile' }, { name: 'Lightning', imageUrl: '/img/gunbound/Lightning.webp', type: 'mobile' }, { name: 'JD', imageUrl: '/img/gunbound/JD.webp', type: 'mobile' }, { name: 'ASate', imageUrl: '/img/gunbound/ASate.webp', type: 'mobile' }, { name: 'Ice', imageUrl: '/img/gunbound/Ice.webp', type: 'mobile' }, { name: 'Turtle', imageUrl: '/img/gunbound/Turtle.webp', type: 'mobile' }, { name: 'Grub', imageUrl: '/img/gunbound/Grub.webp', type: 'mobile' }, { name: 'Aduka', imageUrl: '/img/gunbound/Aduka.webp', type: 'mobile' }, { name: 'Kalsiddon', imageUrl: '/img/gunbound/Kalsiddon.webp', type: 'mobile' }, { name: 'JFrog', imageUrl: '/img/gunbound/JFrog.webp', type: 'mobile' }, { name: 'Knight', imageUrl: '/img/gunbound/Knight.webp', type: 'mobile' }, { name: 'Dragon', imageUrl: '/img/gunbound/Dragon.webp', type: 'mobile' },
+            ],
+            categories: {
+                mobile: 'Mobiles',
+            },
+        }
+    };
     const tiers = [{ name: 'S', color: 'bg-red-600' }, { name: 'A', color: 'bg-orange-500' }, { name: 'B', color: 'bg-yellow-400' }, { name: 'C', color: 'bg-green-500' }, { name: 'D', color: 'bg-sky-500' }];
 
     // --- SELEÇÃO DE ELEMENTOS DO DOM ---
-    const heroesPool = document.getElementById('heroes-pool');
-    const squaddiesPool = document.getElementById('squaddies-pool');
     const tierBoard = document.getElementById('tier-board');
     const tierRanksContainer = document.getElementById('tier-ranks');
+    const characterListContainer = document.getElementById('character-list-container');
+    const gameSelect = document.getElementById('game-select');
 
     // --- ESTADO DA APLICAÇÃO ---
     let draggedElement = null;
-    let offsetX, offsetY;
     let boardCharacters = new Set();
-    let isDraggingTouch = false;
-    let touchGhostElement = null;
-    let touchStartInfo = {};
     
     // --- FUNÇÕES DE INICIALIZAÇÃO E UI ---
 
@@ -27,37 +41,66 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
     }
 
-    function populateCharacterPools() {
-        const uniqueCharacters = [...new Map(characters.map((item) => [item.name, item])).values()];
+    function populateCharacterPools(gameKey) {
+        const data = gameData[gameKey];
+        if (!data) return;
 
-        uniqueCharacters.forEach((char) => {
-            const itemContainer = document.createElement('div');
-            itemContainer.className = 'character-item';
-            itemContainer.draggable = true;
-            itemContainer.dataset.characterName = char.name;
+        characterListContainer.innerHTML = '';
+        
+        const flexContainer = document.createElement('div');
+        flexContainer.className = "flex flex-row lg:flex-col space-x-4 lg:space-x-0 lg:space-y-4";
+        
+        const charactersByType = data.characters.reduce((acc, char) => {
+            if (!acc[char.type]) {
+                acc[char.type] = [];
+            }
+            acc[char.type].push(char);
+            return acc;
+        }, {});
+        
+        for (const type in charactersByType) {
+            const categoryContainer = document.createElement('div');
+            
+            const title = document.createElement('h3');
+            title.className = "category-title text-lg font-semibold mb-2 whitespace-nowrap";
+            title.textContent = data.categories[type] || 'Personagens';
+            categoryContainer.appendChild(title);
 
-            const img = document.createElement('img');
-            img.src = char.imageUrl;
-            img.alt = char.name;
-            img.className = 'w-16 h-16 object-cover rounded-md pointer-events-none';
+            const poolGrid = document.createElement('div');
+            poolGrid.className = "flex flex-row lg:grid lg:grid-cols-3 gap-2";
+            
+            charactersByType[type].forEach((char) => {
+                const itemContainer = document.createElement('div');
+                itemContainer.className = 'character-item';
+                itemContainer.draggable = true;
+                itemContainer.dataset.characterName = char.name;
+                itemContainer.dataset.imageUrl = char.imageUrl; 
 
-            const name = document.createElement('p');
-            name.className = 'text-xs text-center text-gray-300 truncate w-full';
-            name.textContent = char.name;
+                const img = document.createElement('img');
+                img.src = char.imageUrl;
+                img.alt = char.name;
+                img.className = 'w-16 h-16 object-cover rounded-md pointer-events-none';
 
-            itemContainer.appendChild(img);
-            itemContainer.appendChild(name);
+                const name = document.createElement('p');
+                name.className = 'text-xs text-center text-gray-300 truncate w-full';
+                name.textContent = char.name;
 
-            itemContainer.addEventListener('dragstart', handleDragStartFromPool);
-            itemContainer.addEventListener('touchstart', handleTouchStartFromPool, { passive: false });
+                itemContainer.appendChild(img);
+                itemContainer.appendChild(name);
 
-            const targetPool = char.type === 'hero' ? heroesPool : squaddiesPool;
-            targetPool.appendChild(itemContainer);
-        });
+                itemContainer.addEventListener('dragstart', handleDragStart);
+                poolGrid.appendChild(itemContainer);
+            });
+            
+            categoryContainer.appendChild(poolGrid);
+            flexContainer.appendChild(categoryContainer);
+        }
+        
+        characterListContainer.appendChild(flexContainer);
     }
-
+    
     function createTierRanks() {
-        tierRanksContainer.innerHTML = ''; // Limpa antes de recriar
+        tierRanksContainer.innerHTML = '';
         tiers.forEach((tier) => {
             const rankDiv = document.createElement('div');
             rankDiv.className = `flex-1 flex items-center justify-center text-4xl lg:text-5xl font-black text-white ${tier.color}`;
@@ -66,26 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Função de desenhar linhas refatorada
     function drawTierLines() {
+        // Remove as linhas antigas para redesenhar
         document.querySelectorAll('.tier-line-horizontal, .tier-line-vertical').forEach((line) => line.remove());
-        
-        const isMobile = window.innerWidth < 1024; // Breakpoint 'lg' do Tailwind
+        const isMobile = window.innerWidth < 1024;
 
         if (isMobile) {
-            // Desenha linhas verticais
-            const boardWidth = tierBoard.clientWidth;
-            const tierWidth = boardWidth / tiers.length;
+            const ranksWidth = tierRanksContainer.clientWidth;
+            const tierWidth = ranksWidth / tiers.length;
             tiers.forEach((_, index) => {
                 if (index < tiers.length - 1) {
                     const line = document.createElement('div');
                     line.className = 'tier-line-vertical';
                     line.style.left = `${(index + 1) * tierWidth}px`;
+                    // A linha vertical é adicionada ao quadro principal no mobile
                     tierBoard.appendChild(line);
                 }
             });
         } else {
-            // Desenha linhas horizontais
             const boardHeight = tierBoard.clientHeight;
             const tierHeight = boardHeight / tiers.length;
             tiers.forEach((_, index) => {
@@ -99,172 +140,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- LÓGICA DE EVENTOS (MOUSE) ---
+    // --- LÓGICA DE EVENTOS ---
 
-    function handleDragStartFromPool(e) {
+    function handleDragStart(e) {
         const charName = e.currentTarget.dataset.characterName;
-        if (boardCharacters.has(charName)) {
-            e.preventDefault();
-            return;
-        }
-        const img = e.currentTarget.querySelector('img');
-        e.dataTransfer.setData('image-url', img.src);
-        e.dataTransfer.setData('character-name', charName);
-        e.dataTransfer.setData('source', 'pool');
-        setTimeout(() => e.currentTarget.classList.add('opacity-50'), 0);
-    }
+        const imageUrl = e.currentTarget.dataset.imageUrl;
 
-    function handleDragStartFromBoard(e) {
-        draggedElement = e.target;
-        const rect = draggedElement.getBoundingClientRect();
-        offsetX = e.clientX - rect.left;
-        offsetY = e.clientY - rect.top;
-        draggedElement.classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
+        if (e.currentTarget.classList.contains('board-character-wrapper')) {
+            e.dataTransfer.setData('source', 'board');
+        } else {
+            if (boardCharacters.has(charName)) {
+                e.preventDefault();
+                return;
+            }
+            e.dataTransfer.setData('source', 'pool');
+            e.dataTransfer.setData('image-url', imageUrl);
+        }
+        e.dataTransfer.setData('character-name', charName);
     }
 
     function handleDragOver(e) {
         e.preventDefault();
-        if (draggedElement) {
-            const boardRect = tierBoard.getBoundingClientRect();
-            let x = e.clientX - boardRect.left - offsetX;
-            let y = e.clientY - boardRect.top - offsetY;
-            const iconWidth = draggedElement.offsetWidth;
-            const iconHeight = draggedElement.offsetHeight;
-            x = Math.max(0, Math.min(x, boardRect.width - iconWidth));
-            y = Math.max(0, Math.min(y, boardRect.height - iconHeight));
-            draggedElement.style.left = `${x}px`;
-            draggedElement.style.top = `${y}px`;
-        }
-    }
-
-    function handleDragEnd() {
-        document.querySelectorAll('.character-item').forEach((item) => item.classList.remove('opacity-50'));
-        if (draggedElement) {
-            draggedElement.classList.remove('dragging');
-            draggedElement = null;
-        }
     }
 
     function handleDrop(e) {
         e.preventDefault();
+        const charName = e.dataTransfer.getData('character-name');
         const source = e.dataTransfer.getData('source');
-        if (source === 'pool') {
-            const characterName = e.dataTransfer.getData('character-name');
-            if (boardCharacters.has(characterName)) return;
-            const imageUrl = e.dataTransfer.getData('image-url');
-            addCharacterToBoard(imageUrl, characterName, e.clientX, e.clientY);
-        }
-    }
-
-    // --- LÓGICA DE EVENTOS (TOUCH) ---
-
-    function handleTouchStartFromPool(e) {
-        e.preventDefault();
-        const target = e.currentTarget;
-        const charName = target.dataset.characterName;
-
-        if (boardCharacters.has(charName) || isDraggingTouch) {
-            return;
-        }
-
-        isDraggingTouch = true;
-        const img = target.querySelector('img');
-        touchStartInfo = {
-            characterName: charName,
-            imageUrl: img.src,
-            source: 'pool',
-        };
-
-        touchGhostElement = img.cloneNode();
-        touchGhostElement.style.position = 'absolute';
-        touchGhostElement.style.width = '80px';
-        touchGhostElement.style.height = '80px';
-        touchGhostElement.style.zIndex = '1000';
-        touchGhostElement.style.opacity = '0.7';
-        touchGhostElement.style.pointerEvents = 'none';
-        document.body.appendChild(touchGhostElement);
-
-        const touch = e.changedTouches[0];
-        moveElementWithTouch(touch);
-    }
-
-    function handleTouchStartFromBoard(e) {
-        e.preventDefault();
-        if (isDraggingTouch) return;
-
-        isDraggingTouch = true;
-        draggedElement = e.currentTarget;
-        const touch = e.changedTouches[0];
-        const rect = draggedElement.getBoundingClientRect();
-        offsetX = touch.clientX - rect.left;
-        offsetY = touch.clientY - rect.top;
-        draggedElement.classList.add('dragging');
-    }
-
-    function handleTouchMove(e) {
-        if (!isDraggingTouch) return;
-        e.preventDefault();
-        const touch = e.changedTouches[0];
-
-        if (touchGhostElement) {
-            moveElementWithTouch(touch);
-        } else if (draggedElement) {
-            const boardRect = tierBoard.getBoundingClientRect();
-            let x = touch.clientX - boardRect.left - offsetX;
-            let y = touch.clientY - boardRect.top - offsetY;
-
-            const iconWidth = draggedElement.offsetWidth;
-            const iconHeight = draggedElement.offsetHeight;
-            x = Math.max(0, Math.min(x, boardRect.width - iconWidth));
-            y = Math.max(0, Math.min(y, boardRect.height - iconHeight));
-
-            draggedElement.style.left = `${x}px`;
-            draggedElement.style.top = `${y}px`;
-        }
-    }
-
-    function handleTouchEnd(e) {
-        if (!isDraggingTouch) return;
-
-        if (touchGhostElement) {
-            const touch = e.changedTouches[0];
-            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-            
-            if (tierBoard.contains(dropTarget)) {
-                addCharacterToBoard(touchStartInfo.imageUrl, touchStartInfo.characterName, touch.clientX, touch.clientY);
-            }
-            
-            document.body.removeChild(touchGhostElement);
-            touchGhostElement = null;
-        }
-
-        if (draggedElement) {
-            draggedElement.classList.remove('dragging');
-            draggedElement = null;
-        }
+        const existingElement = document.querySelector(`.board-character-wrapper[data-character-name="${charName}"]`);
         
-        isDraggingTouch = false;
-        touchStartInfo = {};
+        if (source === 'board' && existingElement) {
+            positionElement(existingElement, e.clientX, e.clientY);
+        } else if (source === 'pool') {
+            const imageUrl = e.dataTransfer.getData('image-url');
+            addCharacterToBoard(imageUrl, charName, e.clientX, e.clientY);
+        }
     }
-
-    function moveElementWithTouch(touch) {
-        touchGhostElement.style.left = `${touch.clientX - 40}px`; 
-        touchGhostElement.style.top = `${touch.clientY - 40}px`;
-    }
-
+    
     // --- FUNÇÕES DE LÓGICA COMPARTILHADA ---
+    
+    function positionElement(element, clientX, clientY) {
+        const boardRect = tierBoard.getBoundingClientRect();
+        const offsetX = element.offsetWidth / 2;
+        const offsetY = element.offsetHeight / 2;
+        let x = clientX - boardRect.left - offsetX;
+        let y = clientY - boardRect.top - offsetY;
+
+        const elWidth = element.offsetWidth;
+        const elHeight = element.offsetHeight;
+        x = Math.max(0, Math.min(x, boardRect.width - elWidth));
+        y = Math.max(0, Math.min(y, boardRect.height - elHeight));
+
+        element.style.left = `${x}px`;
+        element.style.top = `${y}px`;
+    }
 
     function addCharacterToBoard(imageUrl, characterName, clientX, clientY) {
         if (boardCharacters.has(characterName)) return;
-
         boardCharacters.add(characterName);
         document.querySelector(`.character-item[data-character-name="${characterName}"]`).classList.add('in-board');
 
         const wrapper = document.createElement('div');
         wrapper.className = 'board-character-wrapper';
-        wrapper.draggable = true;
         wrapper.dataset.characterName = characterName;
+        wrapper.draggable = true;
 
         const newImg = document.createElement('img');
         newImg.src = imageUrl;
@@ -278,48 +217,64 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             removeCharacterFromBoard(characterName);
         });
-        removeBtn.addEventListener('touchend', (e) => {
-            e.stopPropagation();
-            removeCharacterFromBoard(characterName);
-        });
 
         wrapper.appendChild(newImg);
         wrapper.appendChild(removeBtn);
+        
+        positionElement(wrapper, clientX, clientY);
 
-        const boardRect = tierBoard.getBoundingClientRect();
-        const iconCenterOffsetX = 40;
-        const iconCenterOffsetY = 40;
-        wrapper.style.left = `${clientX - boardRect.left - iconCenterOffsetX}px`;
-        wrapper.style.top = `${clientY - boardRect.top - iconCenterOffsetY}px`;
-
-        wrapper.addEventListener('dragstart', handleDragStartFromBoard);
-        wrapper.addEventListener('touchstart', handleTouchStartFromBoard, { passive: false });
+        wrapper.addEventListener('dragstart', handleDragStart);
         tierBoard.appendChild(wrapper);
     }
 
     function removeCharacterFromBoard(characterName) {
+        if (!characterName) return;
         boardCharacters.delete(characterName);
-        document.querySelector(`.board-character-wrapper[data-character-name="${characterName}"]`).remove();
-        document.querySelector(`.character-item[data-character-name="${characterName}"]`).classList.remove('in-board');
-    }
 
+        const boardElement = document.querySelector(`.board-character-wrapper[data-character-name="${characterName}"]`);
+        if (boardElement) boardElement.remove();
+
+        const poolElement = document.querySelector(`.character-item[data-character-name="${characterName}"]`);
+        if (poolElement) poolElement.classList.remove('in-board');
+    }
+    
+    // --- FUNÇÃO PARA ATUALIZAR O JOGO ---
+    function updateGame(gameKey) {
+        const data = gameData[gameKey];
+        if(!data) return;
+
+        // Limpa o estado atual
+        tierBoard.innerHTML = '';
+        boardCharacters.clear();
+        
+        // Atualiza o background
+        tierBoard.style.backgroundImage = data.backgroundImage;
+        
+        // Carrega os novos personagens
+        populateCharacterPools(gameKey);
+        
+        // Redesenha as linhas para o novo layout
+        drawTierLines();
+    }
+    
     // --- PONTO DE ENTRADA DA APLICAÇÃO ---
     function init() {
         setAppHeight();
-        populateCharacterPools();
         createTierRanks();
-        drawTierLines();
         
-        // Listeners Globais
-        tierBoard.addEventListener('dragover', handleDragOver);
-        tierBoard.addEventListener('drop', handleDrop);
-        document.addEventListener('dragend', handleDragEnd);
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-        document.addEventListener('touchend', handleTouchEnd);
+        // Listener para o dropdown
+        gameSelect.addEventListener('change', (e) => updateGame(e.target.value));
+        
+        // Carrega o jogo padrão (Gunbound)
+        updateGame('gunbound');
+
         window.addEventListener('resize', () => {
             setAppHeight();
             drawTierLines();
         });
+
+        tierBoard.addEventListener('dragover', handleDragOver);
+        tierBoard.addEventListener('drop', handleDrop);
     }
 
     init();

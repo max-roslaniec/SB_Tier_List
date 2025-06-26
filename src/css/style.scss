@@ -34,11 +34,11 @@ body {
 
 #tier-board {
   position: relative;
-  /* BG Restaurado */
-  background-image: linear-gradient(rgba(14, 19, 31, 0.8), rgba(14, 19, 31, 0.9)), url('/img/bg/bg.png');
+  /* A imagem de fundo agora é definida dinamicamente via JS */
   background-size: cover;
   background-position: center;
   overflow: hidden;
+  transition: background-image 0.5s ease-in-out;
 }
 
 .board-character-wrapper {
@@ -107,7 +107,6 @@ body {
   border-radius: 4px;
 }
 
-/* --- NOVA ALTERAÇÃO --- */
 .category-title {
     color: #a5b4fc; /* Tailwind's indigo-300 para desktop */
 }
@@ -119,7 +118,7 @@ body {
     color: #e0e7ff; /* Cor de texto mais clara para contraste (indigo-100) */
     padding: 0.5rem 1rem; /* Aumenta a altura e o espaçamento */
     border-radius: 8px; /* Cantos arredondados */
-    text-align: center;
+    text-align: left; /* ALTERADO: de 'center' para 'left' */
     position: sticky; /* Faz o título "colar" à esquerda ao rolar */
     left: 0;
     z-index: 10;
